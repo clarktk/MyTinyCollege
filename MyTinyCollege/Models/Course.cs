@@ -18,7 +18,7 @@ namespace MyTinyCollege.Models
          * - None:     Database does not generate values
          */
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
         public int CourseID { get; set; } //PK - Note: with no Identity Property
 
