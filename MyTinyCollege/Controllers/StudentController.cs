@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MyTinyCollege.DAL;
 using MyTinyCollege.Models;
 using PagedList;
+using MyTinyCollege.ViewModels; //for student body stats report
 
 namespace MyTinyCollege.Controllers
 {
@@ -257,6 +258,24 @@ namespace MyTinyCollege.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        //tclark: Stats
+        public ActionResult Stats()
+        {
+            IQueryable<ViewModels.EnrollmentDateGroup> data =
+                from student in db.Students
+                group student by student.EnrollmentDate into dateGroup
+                select new ViewModels.EnrollmentDateGroup()
+                {
+                    EnrollmentDate = dateGroup.Key,
+                    StudentCount = dateGroup.Count()
+                };
+            //The LINQ statement above groups the student entities by enrollment date,
+            //calculating the number of entities in each group, and storing the results
+            //in a collection of EnrollmentDateGroup view model objects
+
+            return View(data.ToList());
         }
 
         protected override void Dispose(bool disposing)
