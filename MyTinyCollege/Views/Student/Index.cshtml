@@ -70,7 +70,10 @@
 
 </table>
 <br />
-@* Page 1 of 3 *@
+@* 
+    Page 1 of 3 
+    Page 0 of 0    
+*@
 Page @(Model.PageCount < Model.PageNumber?0: Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page=>Url.Action("Index",
