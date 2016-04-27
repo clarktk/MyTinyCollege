@@ -1,4 +1,8 @@
-﻿@model IEnumerable<MyTinyCollege.Models.Student>
+﻿@*@model IEnumerable<MyTinyCollege.Models.Student>*@
+@*tclark: added pager*@
+
+@model PagedList.IPagedList<MyTinyCollege.Models.Student>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -9,50 +13,65 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@* tclark:  added search functionality *@
+@using (Html.BeginForm("Index", "Student", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.currentFilter as string)
+        <input type="submit" value="Search" class="btn btn-sm btn-default" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
             @*@Html.DisplayNameFor(model => model.LastName)*@
-            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LNameSortParm })
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LNameSortParm, currentFilter = ViewBag.currentFilter })
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.FirstName)*@
-            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FNameSortParm })
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FNameSortParm, currentFilter = ViewBag.currentFilter })
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.Email)*@
-            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.currentFilter })
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.EnrollmentDate)*@
-            @Html.ActionLink("Enrollment Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+            @Html.ActionLink("Enrollment Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.currentFilter })
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @* mwilliams:remove mailto when using [DataType(DataType.EmailAddress)] in model
-                @Html.DisplayFor(modelItem => item.Email)*@
-            @Html.DisplayTextFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EnrollmentDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @* mwilliams:remove mailto when using [DataType(DataType.EmailAddress)] in model
+                    @Html.DisplayFor(modelItem => item.Email)*@
+                @Html.DisplayTextFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+@* Page 1 of 3 *@
+Page @(Model.PageCount < Model.PageNumber?0: Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page=>Url.Action("Index",
+    new { page, sortOrder=ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
