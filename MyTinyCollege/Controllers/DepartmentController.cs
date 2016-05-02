@@ -52,14 +52,18 @@ namespace MyTinyCollege.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "DepartmentID,Name,Budget,StartDate,InstructorID")] Department department, HttpPostedFileBase ImageName)
         {
+            ViewBag.InstructorID = new SelectList(db.Instructors, "ID", "FullName", department.InstructorID);
+
             if (ModelState.IsValid)
             {
+                //tclark: added image upload
+                //Note the HttpPostedFileBase ImageName args in method
+                //Also the form needs an enctype="multipar/form-data"
+                //and <input type="file" id="ImageName" name="ImageName" accept="image/*" class="form-control" />
                 db.Departments.Add(department);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
-
-            ViewBag.InstructorID = new SelectList(db.Instructors, "ID", "FullName", department.InstructorID);
+            }            
             return View(department);
         }
 
