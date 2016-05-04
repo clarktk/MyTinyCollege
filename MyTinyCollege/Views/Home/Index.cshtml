@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<MyTinyCollege.Models.Department>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -34,4 +35,19 @@
         </p>
         <p><a class="btn btn-default" href="#">Our Programs &raquo;</a></p>
     </div>
+</div>
+
+<div class="row">
+    <h2>Faculties</h2>
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6 col-md-3 center-block">
+            <div class="thumbnail">
+                <img src="~/DeptPics/@(item.DepartmentID).png" alt="@item.Name" />
+                <div class="caption">
+                    <a href="@Url.Action("Index", "Course", new { SelectedDepartment = item.DepartmentID })"><h4>@item.Name</h4></a>
+                </div>
+            </div>
+        </div>
+    }
 </div>

@@ -221,6 +221,11 @@
       <DependentUpon>201604251721462_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\CollegeMigrations\Configuration.cs" />
+    <Compile Include="Migrations\IdentityMigrations\201605031429298_InitialSeed.cs" />
+    <Compile Include="Migrations\IdentityMigrations\201605031429298_InitialSeed.Designer.cs">
+      <DependentUpon>201605031429298_InitialSeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\IdentityMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
@@ -321,6 +326,7 @@
     <Content Include="Views\Department\Details.cshtml" />
     <Content Include="Views\Department\Edit.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Course\UpdateCourseCredits.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -337,6 +343,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\CollegeMigrations\201604251721462_InitialCreate.resx">
       <DependentUpon>201604251721462_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\IdentityMigrations\201605031429298_InitialSeed.resx">
+      <DependentUpon>201605031429298_InitialSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -11,6 +11,10 @@ using MyTinyCollege.Models;
 
 namespace MyTinyCollege.Controllers
 {
+    //tclark: adding authorization for admin users only
+    //[Authorize] anybody who logs in
+    [Authorize(Roles = "admin")]
+
     public class CourseController : Controller
     {
         private SchoolContext db = new SchoolContext();
@@ -49,7 +53,7 @@ namespace MyTinyCollege.Controllers
 
 
         }
-
+        [AllowAnonymous]
         // GET: Course/Details/5
         public ActionResult Details(int? id)
         {
@@ -147,6 +151,28 @@ namespace MyTinyCollege.Controllers
             db.Courses.Remove(course);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult UpdateCourseCredits()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCourseCredits(int? multiplier)
+        {
+            if (multiplier != null)
+            {
+                /*
+                 * Raw SQL query
+                 * Use the Database.SqlQuery method for queries that return types that are not entities.
+                 * The returned data isn't tracked by the database context object.
+                 */
+                ViewBag.RowsAffected = db.Database.ExecuteSqlCommand("UPDATE Course SET credits = credits * {0}", multiplier);
+                //var test = db.Database.SqlQuery<MyTinyCollege.Models.Course>("SELECT ...");
+
+            }
+            return View();
         }
 
         protected override void Dispose(bool disposing)
