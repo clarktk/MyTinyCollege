@@ -1,0 +1,48 @@
+﻿@model MyTinyCollege.ViewModels.InstructorIndexData
+
+@{
+    ViewBag.Title = "Instructor Courses";
+}
+
+<h2>Instructor Courses</h2>
+
+
+<table class="table">
+    <tr>        
+        <th>Your Courses</th>
+    </tr>
+
+@foreach (var item in Model.Instructors) {
+    <tr>
+        <td>
+            @foreach (var course in item.Courses)
+            {
+                @Html.ActionLink(course.CourseIdTitle, "Index", new { courseID = course.CourseID})<br />
+            }
+        </td>        
+    </tr>
+}
+</table>
+@if (Model.Enrollments != null)
+{
+    <h3>Student Enrolled in: </h3>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.Enrollments)
+                {
+                    <tr>
+                        <td>@item.student.FullName</td>
+                        <td>@Html.DisplayFor(modelItem=>item.Grade)</td>
+                        <td>Links go here</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

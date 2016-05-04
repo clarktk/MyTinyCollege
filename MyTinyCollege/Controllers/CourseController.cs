@@ -175,6 +175,14 @@ namespace MyTinyCollege.Controllers
             return View();
         }
 
+        //Anonymous users view of courses
+        [AllowAnonymous]
+        public ActionResult Listing(int? SelectedDepartment)
+        {
+            IQueryable<Course> courses = GetCourses(SelectedDepartment);
+            return View(courses.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
